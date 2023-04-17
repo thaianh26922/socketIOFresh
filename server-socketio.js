@@ -18,7 +18,7 @@ app.set("views", "./views");
 
 var server = require("https").createServer(
   {
-    pfx: fs.readFileSync(path.join(__dirname, 'cert', '20230716_46753b8a.pfx'))
+    pfx: fs.readFileSync(path.join(__dirname, 'cert', 'latest.pfx'))
   }, app);
 var io = require("socket.io")(server, {
   cors: {
