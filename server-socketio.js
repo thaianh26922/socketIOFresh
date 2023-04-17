@@ -2,6 +2,8 @@
 var express = require("express");
 var bodyParser = require("body-parser");
 var app = express();
+var path = require('path');
+var fs = require('fs');
 app.use(bodyParser.json({ limit: "50mb" }));
 app.use(
   bodyParser.urlencoded({
@@ -14,7 +16,10 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-var server = require("http").Server(app);
+var server = require("https").createServer(
+  {
+    pfx: fs.readFileSync(path.join(__dirname, 'cert', '20230716_46753b8a.pfx'))
+  }, app);
 var io = require("socket.io")(server, {
   cors: {
     origin: [
@@ -295,7 +300,7 @@ io.on("connection", (socket) => {
 
   socket.on("togglePermissionAll", ({ room, value }) => {
     console.log("togglePermissionAll", value);
-    const listUpdate = listRoom[room].member.filter((x) => x.role !== "master");
+    const listUpdate = listRoom[room].member;
     listUpdate.forEach((element) => {
       element.haveDrawingPermission = value;
     });
