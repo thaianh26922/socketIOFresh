@@ -190,6 +190,8 @@ io.on("connection", (socket) => {
       element.isHibernate = true;
     });
     socket.removeAllListeners("drawing");
+    socket.removeAllListeners("addLayer");
+    socket.removeAllListeners("deleteLayer");
     socket.removeAllListeners("fetch-data-request");
     socket.removeAllListeners("disconnect");
     socket.removeAllListeners("mousemove");
@@ -366,9 +368,10 @@ io.on("connection", (socket) => {
 
     socket.on("addLayer", function (data) {
       // if (listRoom[room].userCreate != userID) return;
+      console.log('addLayer ', data);
       layer[room]++;
       layerStorage[room].push({
-        id: layer[room],
+        id: data,
         canvas: {
           backgroundColor: "#ffffff",
           gridObj: null,
@@ -707,6 +710,8 @@ io.on("connection", (socket) => {
   socket.on("clearEvent", () => {
     console.log("clear all event");
     socket.removeAllListeners("drawing");
+    socket.removeAllListeners("addLayer");
+    socket.removeAllListeners("deleteLayer");
     socket.removeAllListeners("fetch-data-request");
     socket.removeAllListeners("disconnect");
     socket.removeAllListeners("mousemove");
@@ -726,6 +731,8 @@ io.on("connection", (socket) => {
   socket.on("disconnect", function (data) {
     console.log("~ user disconnect", data);
     socket.removeAllListeners("drawing");
+    socket.removeAllListeners("addLayer");
+    socket.removeAllListeners("deleteLayer");
     socket.removeAllListeners("fetch-data-request");
     socket.removeAllListeners("disconnect");
     socket.removeAllListeners("mousemove");
