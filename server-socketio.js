@@ -16,10 +16,11 @@ app.use(express.static("public"));
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
-var server = require("https").createServer(
-  {
-    pfx: fs.readFileSync(path.join(__dirname, 'cert', 'latest.pfx'))
-  }, app);
+// var server = require("https").createServer(
+//   {
+//     pfx: fs.readFileSync(path.join(__dirname, 'cert', 'latest.pfx'))
+//   }, app);
+var server = require('http').createServer(app);
 var io = require("socket.io")(server, {
   cors: {
     origin: [
@@ -40,6 +41,7 @@ var layer = {};
 var layerStorage = {};
 var currentCanvasColor = "#fff";
 var quiz = {};
+// live reaload
 
 io.on("connection", (socket) => {
   socket.on("PUB_RELOAD_REF_META", (data) => {
@@ -65,6 +67,10 @@ io.on("connection", (socket) => {
   socket.on("PUB_RELOAD_STUDENT_META", (data) => {
     console.log("PUB_RELOAD_STUDENT_META");
     socket.broadcast.emit("SUB_RELOAD_STUDENT_META", data);
+  });
+  socket.on("AUCTION_START", (data) => {
+    console.log("AUCTION_START");
+    socket.broadcast.emit("AUCTION_START_CLIENT", data);
   });
 
   console.log("~ User connection", socket.id);
