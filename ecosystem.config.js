@@ -1,8 +1,8 @@
 module.exports = {
   apps : [{
-    name   : "meta-socketio",
+    name   : "aunction-socketio",
     watch: true,
-    script : "./server-socketio.js",
+    script : "./server.ts",
     env_production: {
        NODE_ENV: "production"
     },
